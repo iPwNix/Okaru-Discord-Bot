@@ -25,6 +25,7 @@ bot.on("message", function(message){
         //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
         var animeNameEncoded = encodeURIComponent(animeNameToLower);
 
+        //Not every anime has an English/Rōmaji title, synopsis, episode count or start/end dates, therefor alot of if checks for now.
         kitsu.searchAnime(animeNameEncoded, 0).then(results => {
                   searchResult = results[0];
                   if(!searchResult){
