@@ -15,11 +15,11 @@ For Version 0.0.1 its just the anime name (Both English and Rōmaji)
 ```
 As seen here, searching with the English Title:
 
-![alt text](https://i.imgur.com/ZhvDlN7.png)
+![alt text](https://i.imgur.com/kjuMSzf.png)
 
 Or the Rōmaji Title:
 
-![alt text](https://i.imgur.com/cw6sDZi.png)
+![alt text](https://i.imgur.com/osUPgoR.png)
 
 And if you search for something and the bot gets an empty response from Kitsu you will recieve this message:
 
