@@ -23,7 +23,7 @@ Or the Rōmaji Title:
 
 And if you search for something and the bot gets an empty response from Kitsu you will recieve this message:
 
-![alt text](https://i.imgur.com/cesgQ9q.png)
+![alt text](https://i.imgur.com/Vk7SlOW.png)
 
 ## Authors
 
