@@ -1,10 +1,11 @@
 {
   "name": "Okaru-bot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Kitsu Bot",
-  "main": "bot.js",
+  "main": "okaru.js",
   "author": "iPwNix",
   "dependencies": {
-    "discord.js": "^11.2.1"
+    "discord.js": "^11.2.1",
+    "node-kitsu": "1.0.1"
   }
 }

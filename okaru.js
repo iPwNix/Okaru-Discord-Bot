@@ -135,13 +135,13 @@ bot.on("message", function(message){
             var timeRemain = Math.floor(lockedObj[message.author.id].time / 1000) - Math.floor(Date.now() / 1000);
             switch(timeRemain) {
               case 1:
-                  message.channel.send(message.author.username+" you are still on cooldown for "+timeRemain+" second!");
+                  message.channel.send(message.author.toString()+" you are still on cooldown for "+timeRemain+" second!");
                   break;
               case 0:
-                  message.channel.send(message.author.username+" you're cooldown is up!");
+                  message.channel.send(message.author.toString()+" your cooldown is almost up!");
                   break;
               default:
-                  message.channel.send(message.author.username+" you are still on cooldown for "+timeRemain+" seconds!");
+                  message.channel.send(message.author.toString()+" you are still on cooldown for "+timeRemain+" seconds!");
             }//END Switch timeRemain
           }//END if else lockedObj
         }//END if startsWith(prefix)
