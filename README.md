@@ -26,6 +26,7 @@ And if you search for something and the bot gets an empty response from Kitsu yo
 ![alt text](https://i.imgur.com/Vk7SlOW.png)
 
 Cooldown:
+
 ![alt text](https://i.imgur.com/P4d5vq9.png)
 
 ## Authors
