@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
-var auth = require("./auths/auth.json");
-var kitsu = require('node-kitsu');
+const auth = require("./auths/auth.json");
+const kitsu = require('node-kitsu');
+const fs = require('fs');
 //Prefix for the commands
 const prefix = "~";
 
@@ -8,7 +9,14 @@ const bot = new Discord.Client();
 
 bot.login(auth.token);
 
-var servers = {};
+bot.lockedUsers = require("./lists/lockedUsers.json");
+
+bot.on("ready", function(){
+  console.log("Okaru is ready");
+  //Resets the locked users JSON on startup.
+  bot.lockedUsers = {};
+  fs.writeFile("./lists/lockedUsers.json", JSON.stringify(bot.lockedUsers));
+});
 
 
 bot.on("message", function(message){
@@ -19,14 +27,36 @@ bot.on("message", function(message){
         //splits the message and removes the prefix so you can check the argument.
         var arg = message.content.substring(prefix.length).split("~");
 
-        //Transform the name to lower case so it wont cause confusion
-        var animeNameToLower = arg[0].toLowerCase();
-        //Encode for names with special characters such as "Pokémon"
-        //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
-        var animeNameEncoded = encodeURIComponent(animeNameToLower);
+        //Reads the json file of locked users
+        var lockedObj = JSON.parse(fs.readFileSync('./lists/lockedUsers.json', 'utf8'));
+        //If the senders ID exsists and the date now is greater/equal to the lock time, delete it from the json
+        if(lockedObj[message.author.id] && Date.now() >= lockedObj[message.author.id].time){
+            delete bot.lockedUsers[message.author.id];
+            fs.writeFile("./lists/lockedUsers.json", JSON.stringify(bot.lockedUsers));
+          }
 
-        //Not every anime has an English/Rōmaji title, synopsis, episode count or start/end dates, therefor alot of if checks for now.
-        kitsu.searchAnime(animeNameEncoded, 0).then(results => {
+          //Read lockedObject again, for if we deleted a user from the list who's time has expired
+          var lockedUserObj = JSON.parse(fs.readFileSync('./lists/lockedUsers.json', 'utf8'));
+          if(!lockedUserObj[message.author.id] || Date.now() >= lockedObj[message.author.id].time){
+
+          //Add the user to the lockedUsers object in the json file.
+          bot.lockedUsers[message.author.id] = {
+            id: message.author.id,
+            username: message.author.username,
+            guild: message.guild.id,
+            time: Date.now() + 30000
+          };
+          fs.writeFile("./lists/lockedUsers.json", JSON.stringify(bot.lockedUsers, null, 4));
+          
+
+          //Transform the name to lower case so it wont cause confusion
+          var animeNameToLower = arg[0].toLowerCase();
+          //Encode for names with special characters such as "Pokémon"
+          //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+          var animeNameEncoded = encodeURIComponent(animeNameToLower);
+
+          //Not every anime has an English/Rōmaji title, synopsis, episode count or start/end dates, therefor alot of if checks for now.
+          kitsu.searchAnime(animeNameEncoded, 0).then(results => {
                   searchResult = results[0];
                   if(!searchResult){
                     message.channel.send("Anime Not Found");
@@ -42,13 +72,13 @@ bot.on("message", function(message){
                     }
                     var title = searchResult.attributes.canonicalTitle;
                     if(!title){
-                            if(!titleEn){
-                                title = titleEn;
-                            }else if(!titleJP){
-                                title = titleJP;
-                            }else{
-                                title = "Canon Title Not Found.";
-                            }
+                      if(!titleEn){
+                          title = titleEn;
+                      }else if(!titleJP){
+                          title = titleJP;
+                      }else{
+                          title = "Canon Title Not Found.";
+                      }
                     }
                     var synopsis = searchResult.attributes.synopsis;
                     if(!synopsis){
@@ -98,9 +128,22 @@ bot.on("message", function(message){
                       .addField("End:", endDate, true);
 
                       message.channel.send({embed});
-                  }
-              });
+                  }//END if !searchresults
+              });//END searchAnime
+          }else{
+            //https://stackoverflow.com/a/32846190/3559635
+            var timeRemain = Math.floor(lockedObj[message.author.id].time / 1000) - Math.floor(Date.now() / 1000);
+            switch(timeRemain) {
+              case 1:
+                  message.channel.send(message.author.username+" you are still on cooldown for "+timeRemain+" second!");
+                  break;
+              case 0:
+                  message.channel.send(message.author.username+" you're cooldown is up!");
+                  break;
+              default:
+                  message.channel.send(message.author.username+" you are still on cooldown for "+timeRemain+" seconds!");
+            }//END Switch timeRemain
+          }//END if else lockedObj
+        }//END if startsWith(prefix)
 
-    }
-
-});
+});//END bot.on("message")
