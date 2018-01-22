@@ -2,32 +2,44 @@
 Okaru is used to get Anime/Manga and User profile information from [Kitsu.io](http://kitsu.io) and display this info on your Discord Server.
 Made with the [node-kitsu](https://github.com/the-conceptionist/node-kitsu) Node Package made by [The Conceptionist](https://github.com/the-conceptionist).
 
-## Version: 0.0.2
-The Bot is only able to search up anime at this time, but with this version a command cooldown has been added. 
+## Version: 0.0.5
+The Bot is now able to search up Anime, Manga and Profile Information and display it in a embedded Discord Message, a user can only make a request once every 30 seconds.
+
+The only error i've encountered so far is with the cleaning of the JSON on launching the bot, this error only occurs sometimes and im trying to figure out whats causing it.
 
 ## Usage
-The bots current prefix is set to ~{Anime Name}, this will most likely be changed to ~anime {Anime Name}, ~manga {Manga Name} and ~profile {Profile Name}
-in the future when more functionality is added.
+The bot's prefix is set to ~, followed by the command and the argument ~"Command" "Argument"
 
-For Version 0.0.1 its just the anime name (Both English and Rōmaji)
+For anime and Manga you can both search on the English and Rōmaji titles.
 ```
-~{Anime Name}
+~anime "Anime Name"
+~manga "Mange Name"
+~profile "Username"
 ```
-As seen here, searching with the English Title:
+As seen here, searching with an English Title:
 
-![alt text](https://i.imgur.com/kjuMSzf.png)
+![alt text](https://i.imgur.com/WAZ237h.png)
 
-Or the Rōmaji Title:
+Searching up a Manga:
 
-![alt text](https://i.imgur.com/osUPgoR.png)
+![alt text](https://i.imgur.com/dmEGcSJ.png)
 
-And if you search for something and the bot gets an empty response from Kitsu you will recieve this message:
+Searching up a Profile with the Username:
 
-![alt text](https://i.imgur.com/Vk7SlOW.png)
+![alt text](https://i.imgur.com/hKuDpX2.png)
 
-Cooldown:
+If you try to make another request to the bot within 30 seconds of your previous request you will get this response:
 
-![alt text](https://i.imgur.com/9bTRhg0.png)
+![alt text](https://i.imgur.com/1I471sJ.png)
+
+If you search for something and the bot gets an empty response from Kitsu you will recieve this message:
+
+![alt text](https://i.imgur.com/IWpoJNu.png)
+
+Using an incorrect command with the prefix will result in this message being sent:
+
+![alt text](https://i.imgur.com/sTZnv5A.png)
+
 
 ## Authors
 
