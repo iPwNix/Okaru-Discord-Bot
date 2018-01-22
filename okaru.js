@@ -29,13 +29,12 @@ fs.readdir("./commands/", function(err, files){
   });
 });
 
-//Reset the locked users JSON before startup.
-fs.truncate('./lists/lockedUsers.json', 0, function(){console.log('done clearing')});
-bot.lockedUsers = {};
-fs.writeFile("./lists/lockedUsers.json", JSON.stringify(bot.lockedUsers));
 
 bot.on("ready", function(){
   console.log("Okaru is ready");
+  //Reset the locked users JSON before startup.
+  bot.lockedUsers = {};
+  fs.writeFile("./lists/lockedUsers.json", JSON.stringify(bot.lockedUsers));
   console.log(bot.commands);
 });
 
