@@ -1,6 +1,6 @@
 {
   "name": "Okaru-bot",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "A Kitsu Bot",
   "main": "okaru.js",
   "author": "iPwNix",
