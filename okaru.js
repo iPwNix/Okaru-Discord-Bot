@@ -32,6 +32,8 @@ fs.readdir("./commands/", function(err, files){
 
 bot.on("ready", function(){
   console.log("Okaru is ready");
+  bot.user.setStatus("Online");
+  bot.user.setGame("Kitsu.io");
   //Reset the locked users JSON before startup.
   bot.lockedUsers = {};
   fs.writeFile("./lists/lockedUsers.json", JSON.stringify(bot.lockedUsers));
